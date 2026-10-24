@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>页面不存在</title>
+<meta name="robots" content="noindex">
+<!-- 样式内联，不引 style.css。
+     GitHub / GitLab Pages 的项目站挂在 /<仓库名>/ 下，404 页又会被任意
+     深度的路径触发：写 /style.css 会请求到域名根，写 ./style.css 在
+     /<仓库名>/a/b/ 下会解析成 /<仓库名>/a/style.css —— 两种都拿不到。
+     内联是唯一在所有平台、所有路径下都不裸奔的做法。 -->
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; align-items: center;
+    background: #E7E9EA; color: #141A1C;
+    font-family: "PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: 3rem 1.5rem; width: 100%; }
+  h1 {
+    font-size: clamp(2.5rem,10vw,4rem); font-weight: 700;
+    line-height: 1.02; letter-spacing: -.01em; margin: 0;
+  }
+  .lede { color: #56605F; margin: 1rem 0 2.5rem; }
+  .age { display: flex; align-items: center; gap: .5rem;
+         margin: 2rem 0 0; font-size: .8125rem; }
+  .mark { padding: .125rem .4375rem; background: #C32F24; color: #FFFFFF;
+          font-size: .75rem; font-weight: 700; letter-spacing: .06em; }
+  .board { border-top: 2px solid #141A1C; }
+  .slot {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 1.5rem; flex-wrap: wrap; padding: 1.5rem 1.25rem;
+    background: #FFFFFF; border-bottom: 1px solid #C4CACC;
+    border-left: 6px solid transparent; text-decoration: none; color: inherit;
+    transition: border-left-color .15s ease, background .15s ease;
+  }
+  .slot:hover { border-left-color: #D6372B; background: #E7E9EA; }
+  .slot b { font-size: 1.5rem; font-weight: 600; }
+  .slot span { font-size: .8125rem; color: #6B7578; word-break: break-all; }
+  a:focus-visible { outline: 3px solid #D6372B; outline-offset: 2px; }
+  @media (prefers-color-scheme: dark) {
+    body { background: #15191A; color: #E9ECEC; }
+    .lede, .slot span { color: #949EA1; }
+    /* 深色下信号色变亮，白字只有 3.06:1，换深字得 5.78:1 */
+    .mark { background: #FF5B4D; color: #15191A; }
+    .board { border-top-color: #E9ECEC; }
+    .slot { background: #1E2426; border-bottom-color: #333B3E; }
+    .slot:hover { border-left-color: #FF5B4D; background: #15191A; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>没有这一页</h1>
+  <p class="lede">404。你要找的地址在这个站上不存在。</p>
+  <div class="board">
+    <!-- 绝对网址：在任何平台、任何路径下都不会指错 -->
+    <a class="slot" href="https://chengrenbaike.com/">
+      <b>直接进主站</b><span>chengrenbaike.com</span>
+    </a>
+    <!-- 项目站挂在 /<仓库名>/ 下，所以这里不能写 /。
+         换 Cloudflare Pages（挂根目录）时改回 / 即可。 -->
+    <a class="slot" href="/nav-hub/">
+      <b>回入口页</b><span>本站</span>
+    </a>
+  </div>
+  <!-- 这一页同域可直达，且上面那条链接直通成人站点，
+       所以 18+ 提示必须在这里也出现一次。 -->
+  <p class="age"><span class="mark">18+</span> 本站内容仅限年满 18 周岁者访问</p>
+</div>
+</body>
+</html>

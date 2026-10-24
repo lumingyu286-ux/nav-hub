@@ -1,0 +1,311 @@
+/* 成人内容百科 入口页 ---------------------------------------
+   标识系统的语汇：大字块、强对比、零装饰。
+   和 baike-nav 那套（深底 / 暖色 / 宋体 / 细引点线）刻意相反。 */
+
+:root {
+  color-scheme: light dark;
+
+  --ground: #E7E9EA;
+  --panel:  #FFFFFF;
+  --ink:    #141A1C;
+  /* 这个灰要压得够深：#6B7578 在 --ground 上只有 3.88:1，
+     达不到正文 4.5:1 的无障碍门槛。.lede、.foot-note，
+     以及悬停时的 .slot-host 都落在 --ground 上。 */
+  --muted:  #56605F;
+  --line:   #C4CACC;
+  --signal: #C32F24;
+  --on-signal: #FFFFFF;
+
+  --sans: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
+
+  --measure: 44rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #15191A;
+    --panel:  #1E2426;
+    --ink:    #E9ECEC;
+    --muted:  #949EA1;
+    --line:   #333B3E;
+    --signal: #FF5B4D;
+    /* 深色下信号色变亮，白字压上去只有 3.06:1，
+       12px 粗体不算大字号，门槛还是 4.5:1。改用深字，5.78:1。 */
+    --on-signal: #15191A;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+a { color: inherit; text-decoration: none; }
+
+:focus-visible {
+  outline: 3px solid var(--signal);
+  outline-offset: 2px;
+}
+
+.shell {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 4rem 1.5rem 3rem;
+}
+
+.shell[hidden] { display: none; }
+
+/* 报头 ----------------------------------------------------- */
+
+.head { margin-bottom: 2.75rem; }
+
+.title {
+  font-size: clamp(2.5rem, 10vw, 4rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -.01em;
+  margin: 0;
+}
+
+.lede {
+  font-size: 1rem;
+  color: var(--muted);
+  margin: 1rem 0 0;
+  max-width: 28rem;
+}
+
+/* 入口标识条 ------------------------------------------------
+   不是卡片：没有圆角，没有投影，靠左侧色条和实线分隔。 */
+
+.board {
+  border-top: 2px solid var(--ink);
+}
+
+.slot {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: .375rem 1.5rem;
+  align-items: baseline;
+  padding: 1.5rem 1.25rem;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+  border-left: 6px solid transparent;
+  transition: border-left-color .15s ease, background .15s ease;
+}
+
+.slot:hover,
+.slot:focus-visible {
+  border-left-color: var(--signal);
+  background: var(--ground);
+}
+
+.slot-name {
+  grid-column: 1;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: .01em;
+}
+
+.slot-note {
+  grid-column: 1;
+  font-size: .875rem;
+  color: var(--muted);
+}
+
+/* 目标域名常驻显示。四个入口去同一个地方时，
+   访客有权一眼看出来 —— 不要把这行去掉。 */
+.slot-host {
+  grid-column: 2;
+  /* 用 1 / -1 而不是 1 / span 2：条目没有说明文字时只有一行，
+     span 2 会多撑出一个空行，把域名压到名称基线下面。 */
+  grid-row: 1 / -1;
+  align-self: center;
+  font-size: .8125rem;
+  color: var(--muted);
+  text-align: right;
+  word-break: break-all;
+}
+
+@media (max-width: 30rem) {
+  .slot {
+    grid-template-columns: 1fr;
+    padding: 1.25rem 1rem;
+    border-left-width: 4px;
+  }
+  .slot-host {
+    grid-column: 1;
+    grid-row: auto;
+    text-align: left;
+    margin-top: .25rem;
+  }
+  .slot-name { font-size: 1.3125rem; }
+}
+
+/* 页脚 ----------------------------------------------------- */
+
+.foot {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  font-size: .8125rem;
+  color: var(--muted);
+}
+
+.foot p { margin: 0 0 .375rem; }
+
+.foot-age {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  color: var(--ink);
+}
+
+/* 全站唯一的红色落点：年龄警示。
+   信号色只对应这一件事，不做装饰用。 */
+.mark {
+  padding: .125rem .4375rem;
+  background: var(--signal);
+  color: var(--on-signal);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+
+/* 年龄确认 ------------------------------------------------- */
+
+/* overflow:auto + margin:auto 不是装饰：app.js 打开门时会把
+   body 的滚动关掉，门自己再不能滚的话，横屏手机或放大字号下
+   面板底部会被切掉 —— 两个按钮都够不着，访客既进不去也退不出。 */
+.gate {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: auto;
+  padding: 1.5rem;
+  background: var(--ground);
+}
+
+.gate[hidden] { display: none; }
+
+.gate-panel {
+  width: 100%;
+  max-width: 26rem;
+  margin: auto;
+  background: var(--panel);
+  border: 2px solid var(--ink);
+  padding: 1.75rem 1.625rem 1.5rem;
+}
+
+.gate-mark {
+  display: inline-block;
+  margin: 0 0 1rem;
+  padding: .125rem .5rem;
+  background: var(--signal);
+  color: var(--on-signal);
+  font-size: .875rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+
+.gate-panel h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  margin: 0 0 .625rem;
+}
+
+.gate-body {
+  font-size: .9375rem;
+  margin: 0 0 1.375rem;
+}
+
+.gate-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .625rem;
+  margin-bottom: 1rem;
+}
+
+.btn {
+  font-family: inherit;
+  font-size: .9375rem;
+  font-weight: 600;
+  padding: .6875rem 1.25rem;
+  background: var(--ink);
+  color: var(--ground);
+  border: 2px solid var(--ink);
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+
+.btn:hover { background: var(--signal); border-color: var(--signal); color: var(--on-signal); }
+
+.btn-quiet {
+  background: transparent;
+  color: var(--muted);
+  border-color: var(--line);
+  font-weight: 400;
+}
+
+.btn-quiet:hover {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.gate-fine {
+  font-size: .75rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* 脚本没起来时的兜底 ----------------------------------------
+   #gate 和 #page 都靠 app.js 才显示，所以 app.js 一旦被拦截
+   （拦广告的过滤规则、CSP、网络抖动），页面会整个空白。
+   这块默认可见，app.js 一启动就给 <html> 加 js-ok 并把它藏掉。
+   注意这里不放进主站的链接 —— 那等于给年龄确认开后门。 */
+
+.boot {
+  max-width: 26rem;
+  margin: 4rem auto;
+  padding: 1.75rem 1.625rem;
+  background: var(--panel);
+  border: 2px solid var(--ink);
+}
+
+.js-ok .boot { display: none; }
+
+.boot h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  margin: 1rem 0 .625rem;
+}
+
+.boot p { margin: 0; font-size: .9375rem; color: var(--muted); }
+
+/* 偏好设置 ------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
