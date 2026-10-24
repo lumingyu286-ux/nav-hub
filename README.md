@@ -66,12 +66,13 @@ const SITE = {
 1. 推到仓库，Settings → Pages → Source 选 `Deploy from a branch`，分支 `main`、目录 `/ (root)`
 2. `.nojekyll` 已就位
 
-仓库名不是 `<用户名>.github.io` 时，站点挂在 `https://<用户名>.github.io/<仓库名>/` 下。`404.html` 里「回入口页」写的是 `/nav-hub/`，**换仓库名或换平台记得改**。404 页上的主按钮是绝对网址，不受影响。
+仓库名不是 `<用户名>.github.io` 时，站点挂在 `https://<用户名>.github.io/<仓库名>/` 下。`404.html` 里「回入口页」用的是相对路径 `./`，GitHub 项目站和 Cloudflare 根目录两边都对，不用改。404 页上的主按钮是绝对网址，不受影响。
 
 ### Cloudflare Pages
 
 构建命令留空，输出目录 `/`。或直接 `npx wrangler pages deploy . --project-name=<项目名>`。
-注意这边站点挂在根目录，`404.html` 里的 `/nav-hub/` 要改回 `/`。
+
+当前部署：<https://baikehub.pages.dev/>
 
 ### GitLab Pages
 
